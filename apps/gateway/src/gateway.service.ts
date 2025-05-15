@@ -6,17 +6,21 @@ import { firstValueFrom } from 'rxjs';
 export class GatewayService {
   constructor(private readonly httpService: HttpService) {}
 
-  async getAuthHello() {
-    const response = await firstValueFrom(
-      this.httpService.get('http://localhost:4001/hello'),
+  async RegisterAuth(authData: any) {
+    await firstValueFrom(
+      this.httpService.post('http://localhost:4001/register',authData),
     );
-    return response.data;
   }
 
-  async getEventHello() {
-    const response = await firstValueFrom(
-      this.httpService.get('http://localhost:4002/hello'),
+  async RegisterEvent(eventData: any) {
+    await firstValueFrom(
+      this.httpService.post('http://localhost:4002/eventRegist',eventData),
     );
-    return response.data;
+  }
+
+  async RewardRequest(rewardRequestData: any) {
+    await firstValueFrom(
+      this.httpService.post('http://localhost:4002/rewardRequest',rewardRequestData),
+    );
   }
 }

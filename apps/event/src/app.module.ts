@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from './auth.module';
+import { EventModule } from './event.module';
 
 @Module({
   imports: [
     MongooseModule.forRoot('url'), // DB 연결
-    AuthModule,
+    EventModule,
   ],
 })
 export class AppModule {}
