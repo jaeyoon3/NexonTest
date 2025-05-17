@@ -13,7 +13,7 @@ export class Reward {
     quantity: number;
 
     @Prop()
-    eventName: string;
+    eventId: string;
 
 }
 

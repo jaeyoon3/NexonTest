@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param } from '@nestjs/common';
 import { AppService } from './auth.service';
 import { Auth } from './schema/auth.schema';
 
@@ -26,8 +26,23 @@ export class AppController {
     }
   }
 
+  @Put('/progressAuth')
+  async progressAuth(@Body() progressData: {userId: string; eventId: string; conditionId: string}) {
+    return this.appService.progress(progressData.userId, progressData.eventId, progressData.conditionId);
+  }
+
+  @Get('/getProgress/:userId/:eventId')
+  async getUserProgress(@Param('userId') userId: string, @Param('eventId') eventId: string): Promise<number | null> {
+    return this.appService.getUserProgress(userId,eventId);
+  }
+
+  @Put('/success/:userId/:eventId')
+  async success(@Param('userId') userId: string, @Param('eventId') eventId: string) {
+    return this.appService.success(userId,eventId);
+  }
+
   @Get('/hello')
-  getHello(): string {
+    getHello(): string {
     return this.appService.getHello();
   }
 }

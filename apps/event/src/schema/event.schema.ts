@@ -12,14 +12,14 @@ export class Event {
     @Prop()
     description: string;
 
-    @Prop()
+    @Prop(String)
     condition: string;
 
     @Prop()
     status: boolean;
 
-    @Prop()
-    reward: string;
+    @Prop([String])
+    reward: string[];
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);

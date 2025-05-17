@@ -23,6 +23,21 @@ export class Auth {
 
     @Prop()
     successRequests: string[];
+
+    @Prop({
+    type: [
+      {
+        eventId: String,
+        progress: Number,     
+        conditionId: String,  
+      },
+    ],
+    })
+    eventProgress: {
+        eventId: string;
+        progress: number;
+        conditionId: string;
+    }[];
 }
 
 export const AuthSchema = SchemaFactory.createForClass(Auth);

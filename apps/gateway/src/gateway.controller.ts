@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Req  } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, UseGuards, Req  } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from './jwt/roles.guard';
@@ -20,12 +20,10 @@ export class GatewayController {
     const token = await this.gatewayService.LoginAuth(loginData);
     return { access_token: token };
   }
-  
-  //이건 일단 나둬
-  @Get('/profile')
-  @UseGuards(AuthGuard('jwt'))
-  getProfile(@Req() req) {
-    return req.user; // JwtStrategy에서 validate()로 반환한 값
+
+  @Put('/auth/progress')
+  async Progress(@Body() progressData: any) {
+    return await this.gatewayService.ProgressAuth(progressData);
   }
 
   //Event
@@ -36,9 +34,58 @@ export class GatewayController {
     return await this.gatewayService.RegisterEvent(eventData);
   }
 
+  @Get('/event/eventList')
+  @UseGuards(AuthGuard('jwt'))
+  async getEventList() {
+    return await this.gatewayService.AllEventCheck(); 
+  }
+
+  @Get('/event/eventDetail')
+  @UseGuards(AuthGuard('jwt'))
+  async getEventDetail(@Body('eventId') eventId: string) {
+    return await this.gatewayService.OneEventCheck(eventId); 
+  }
+
+  @Post('/event/condition')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async ConditionRegister(@Body() conditionData: any) {
+    return await this.gatewayService.RegisterCondition(conditionData);
+  }
+
+  @Get('/event/conditionCheck')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async conditionCheck(@Body('conditionId') conditionId: string) {
+    return await this.gatewayService.ConditionCheck(conditionId);
+  }
+
+  //Event-reward
+  @Post('/event/reward')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async RewardRegister(@Body() rewardData: any) {
+    return await this.gatewayService.RegisterReward(rewardData);
+  }
+
+  @Get('/event/rewardList')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async getRewardList() {
+    return await this.gatewayService.AllRewardCheck(); 
+  }
+
+  @Get('/event/rewardCheck')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async rewardCheck(@Body('rewardId') rewardId: string) {
+    return await this.gatewayService.OneRewardCheck(rewardId);
+  }
+
+  //Event-rewardRequest
   @Post('/event/rewardRequest')
   async rewardRequest(@Body() rewardRequestData: any) {
-    return await this.gatewayService.RegisterEvent(rewardRequestData);
+    return await this.gatewayService.RewardRequest(rewardRequestData);
   }
 
   @Get('/admin/dashboard')

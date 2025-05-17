@@ -13,9 +13,6 @@ export class RewardRequest {
     eventId: string;
 
     @Prop()
-    rewardId: string;
-
-    @Prop()
     status: boolean;
 }
 
