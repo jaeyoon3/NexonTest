@@ -12,6 +12,20 @@ export class AppController {
     return this.appService.create(authData);
   }
 
+  @Post('/login')
+  async login(@Body() loginData: { email: string; password: string }) {
+    const token = await this.appService.login(
+      loginData.email,
+      loginData.password,
+    );
+    console.log(loginData.email,loginData.password)
+    if (token) {
+      return { access_token: token };
+    } else {
+      return { message: 'Invalid credentials' };
+    }
+  }
+
   @Get('/hello')
   getHello(): string {
     return this.appService.getHello();

@@ -8,7 +8,7 @@ import { EventService } from './event.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/nexon_auth'),
+    MongooseModule.forRoot('uri'),
     MongooseModule.forFeature([
       { name: Event.name, schema: EventSchema },
       { name: Reward.name, schema: RewardSchema },

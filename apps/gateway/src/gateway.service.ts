@@ -11,6 +11,13 @@ export class GatewayService {
       this.httpService.post('http://localhost:4001/register',authData),
     );
   }
+  
+  async LoginAuth(loginData: any) {
+    const response = await firstValueFrom(
+      this.httpService.post('http://localhost:4001/login',loginData),
+    );
+    return response.data;
+  } 
 
   async RegisterEvent(eventData: any) {
     await firstValueFrom(

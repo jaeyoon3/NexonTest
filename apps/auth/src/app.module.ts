@@ -4,7 +4,7 @@ import { AuthModule } from './auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('url'), // DB 연결
+    MongooseModule.forRoot('uri'), // DB 연결
     AuthModule,
   ],
 })
