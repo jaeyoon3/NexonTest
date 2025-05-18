@@ -16,6 +16,7 @@ export class AppController {
   //로그인
   @Post('/login')
   async login(@Body() loginData: { email: string; password: string }) {
+    console.log("login api start")
     const token = await this.appService.login(
       loginData.email,
       loginData.password,

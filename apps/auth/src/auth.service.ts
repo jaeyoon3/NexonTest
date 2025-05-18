@@ -19,6 +19,7 @@ export class AppService {
 
   //로그인
   async login(email: string, password: string): Promise<string | null> {
+    console.log("login start")
     const user = await this.authModel.findOne({ email }).exec();
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload = { email: user.email, role: user.role };

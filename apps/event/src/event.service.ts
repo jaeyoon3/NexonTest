@@ -113,7 +113,7 @@ export class EventService {
   async rewardRequest(rewardRequest: RewardRequest){
     const { userId, eventId } = rewardRequest;
     const duplication = await firstValueFrom(
-      this.httpService.get(`http://localhost:4001/duplication/${userId}/${eventId}`)
+      this.httpService.get(`http://auth_service:4001/duplication/${userId}/${eventId}`)
     );
     const checkDuplication: boolean = duplication.data;
     if(checkDuplication){
@@ -132,7 +132,7 @@ export class EventService {
     const goal = condition.goal;
     console.log("goal is "+goal)
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:4001/getProgress/${userId}/${eventId}`)
+      this.httpService.get(`http://auth_service:4001/getProgress/${userId}/${eventId}`)
     );
     const userProgress: number = response.data; 
     
@@ -146,7 +146,7 @@ export class EventService {
         { new: true }
       );
       await firstValueFrom(
-        this.httpService.put(`http://localhost:4001/success/${userId}/${eventId}`)
+        this.httpService.put(`http://auth_service:4001/success/${userId}/${eventId}`)
       );
     }
   }

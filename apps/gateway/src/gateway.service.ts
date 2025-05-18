@@ -9,33 +9,34 @@ export class GatewayService {
   //Auth
   async RegisterAuth(authData: any) {
     await firstValueFrom(
-      this.httpService.post('http://localhost:4001/register',authData),
+      this.httpService.post('http://auth_service:4001/register',authData),
     );
   }
   
   async LoginAuth(loginData: any) {
+    console.log("login api start")
     const response = await firstValueFrom(
-      this.httpService.post('http://localhost:4001/login',loginData),
+      this.httpService.post('http://auth_service:4001/login',loginData),
     );
     return response.data;
   } 
 
   async ProgressAuth(progressData: any) {
     await firstValueFrom(
-      this.httpService.put('http://localhost:4001/progressAuth',progressData),
+      this.httpService.put('http://auth_service:4001/progressAuth',progressData),
     );
   }
 
   //Event
   async RegisterEvent(eventData: any) {
     await firstValueFrom(
-      this.httpService.post('http://localhost:4002/eventRegist',eventData),
+      this.httpService.post('http://event_service:4002/eventRegist',eventData),
     );
   }
 
   async AllEventCheck() {
     const response = await firstValueFrom(
-      this.httpService.get('http://localhost:4002/checkEventList'),
+      this.httpService.get('http://event_service:4002/checkEventList'),
     );
     return response.data;
   } 
@@ -43,20 +44,20 @@ export class GatewayService {
   async OneEventCheck(eventId: string) {
     console.log("event id is this " + eventId);
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:4002/checkOneEvent/${eventId}`),
+      this.httpService.get(`http://event_service:4002/checkOneEvent/${eventId}`),
     );
     return response.data;
   }
 
   async RegisterCondition(conditionData: any) {
     await firstValueFrom(
-      this.httpService.post('http://localhost:4002/conditionRegist',conditionData),
+      this.httpService.post('http://event_service:4002/conditionRegist',conditionData),
     );
   }
 
   async ConditionCheck(conditionId: string) {
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:4002/checkCondition/${conditionId}`),
+      this.httpService.get(`http://event_service:4002/checkCondition/${conditionId}`),
     );
     return response.data;
   }
@@ -64,20 +65,20 @@ export class GatewayService {
   //Event-reward
   async RegisterReward(rewardData: any) {
     await firstValueFrom(
-      this.httpService.post('http://localhost:4002/rewardRegist',rewardData),
+      this.httpService.post('http://event_service:4002/rewardRegist',rewardData),
     );
   }
 
   async AllRewardCheck() {
     const response = await firstValueFrom(
-      this.httpService.get('http://localhost:4002/checkRewardList'),
+      this.httpService.get('http://event_service:4002/checkRewardList'),
     );
     return response.data;
   } 
 
   async OneRewardCheck(rewardId: string) {
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:4002/checkOneReward/${rewardId}`),
+      this.httpService.get(`http://event_service:4002/checkOneReward/${rewardId}`),
     );
     return response.data;
   }
@@ -85,20 +86,20 @@ export class GatewayService {
   //Event-rewardRequest
   async RewardRequest(rewardRequestData: any) {
     await firstValueFrom(
-      this.httpService.post('http://localhost:4002/rewardRequest',rewardRequestData),
+      this.httpService.post('http://event_service:4002/rewardRequest',rewardRequestData),
     );
   }
 
   async RequestList() {
     const response = await firstValueFrom(
-      this.httpService.get('http://localhost:4002/requestList'),
+      this.httpService.get('http://event_service:4002/requestList'),
     );
     return response.data;
   } 
 
   async RequestCheck(userId: string) {
     const response = await firstValueFrom(
-      this.httpService.get(`http://localhost:4002/checkRequest/${userId}`),
+      this.httpService.get(`http://event_service:4002/checkRequest/${userId}`),
     );
     return response.data;
   }

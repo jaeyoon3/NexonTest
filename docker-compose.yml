@@ -1,6 +1,5 @@
-version: '3'
 services:
-  mongodb:
+  my_mongodb:
     image: mongo:latest
     container_name: my_mongodb
     ports:
@@ -9,10 +8,12 @@ services:
       - my_network
     volumes:
       - mongo_data:/data/db
+      
 
   auth-service:
     build:
-      context: ./auth
+      context: .
+      dockerfile: apps/auth/Dockerfile
     container_name: auth_service
     ports:
       - "4001:4001"
@@ -21,11 +22,12 @@ services:
     environment:
       MONGODB_URI: mongodb://my_mongodb:27017/auth-db
     depends_on:
-      - mongodb
+      - my_mongodb
 
   event-service:
     build:
-      context: ./event
+      context: .
+      dockerfile: apps/event/Dockerfile
     container_name: event_service
     ports:
       - "4002:4002"
@@ -34,11 +36,12 @@ services:
     environment:
       MONGODB_URI: mongodb://my_mongodb:27017/event-db
     depends_on:
-      - mongodb
+      - my_mongodb
 
   gateway-service:
     build:
-      context: ./gateway
+      context: .
+      dockerfile: apps/gateway/Dockerfile
     container_name: gateway_service
     ports:
       - "4000:4000"
