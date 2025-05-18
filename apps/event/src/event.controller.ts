@@ -59,10 +59,16 @@ export class EventController {
   async rewardRequest(@Body() rewardRequestData: RewardRequest) {
       return this.appService.rewardRequest(rewardRequestData);
   }
-  
 
-  @Get('/hello')
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('/requestList')
+  async RequestList(): Promise<RewardRequest[]>  {
+    return this.appService.RequestList();
   }
+
+  @Get('/checkRequest/:userId')
+  async checkRequest(@Param('userId') userId: string): Promise<RewardRequest[] | null>  {
+    return this.appService.checkRequest(userId);
+  }
+
+  
 }

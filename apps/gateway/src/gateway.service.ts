@@ -88,4 +88,18 @@ export class GatewayService {
       this.httpService.post('http://localhost:4002/rewardRequest',rewardRequestData),
     );
   }
+
+  async RequestList() {
+    const response = await firstValueFrom(
+      this.httpService.get('http://localhost:4002/requestList'),
+    );
+    return response.data;
+  } 
+
+  async RequestCheck(userId: string) {
+    const response = await firstValueFrom(
+      this.httpService.get(`http://localhost:4002/checkRequest/${userId}`),
+    );
+    return response.data;
+  }
 }

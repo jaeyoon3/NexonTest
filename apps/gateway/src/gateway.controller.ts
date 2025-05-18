@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, UseGuards, Req  } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, UseGuards } from '@nestjs/common';
 import { GatewayService } from './gateway.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from './jwt/roles.guard';
@@ -88,11 +88,17 @@ export class GatewayController {
     return await this.gatewayService.RewardRequest(rewardRequestData);
   }
 
-  @Get('/admin/dashboard')
+  @Get('/event/requestList')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('USER')
-  getAdminDashboard(@Req() req) {
-    return `Hello Admin, this is your dashboard!`;
+  @Roles('OPERATOR','ADMIN','AUDITOR')
+  async getRequestList() {
+    return await this.gatewayService.RequestList(); 
+  }
+
+  @Get('/event/CheckRequest')
+  @UseGuards(AuthGuard('jwt'))
+  async CheckRequest(@Body('userId') userId: string) {
+    return await this.gatewayService.RequestCheck(userId); 
   }
 
 }

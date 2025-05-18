@@ -57,6 +57,17 @@ export class AppService {
     return await this.authModel.findById(userId);
   }
 
+  async duplication(userId: string, eventId: string): Promise<boolean | null> {
+    if (!Types.ObjectId.isValid(userId)) {
+      throw new Error('Invalid user ID');
+    }
+    const auth = await this.authModel.findById(userId).lean().exec();
+    if (!auth) {
+      return null;
+    }
+    return auth.successRequests.includes(eventId);
+  }
+
   async getUserProgress(userId: string, eventId: string): Promise<number | null> {
     if (!Types.ObjectId.isValid(userId)) {
       throw new Error('Invalid user ID');

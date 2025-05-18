@@ -31,6 +31,11 @@ export class AppController {
     return this.appService.progress(progressData.userId, progressData.eventId, progressData.conditionId);
   }
 
+  @Get('/duplication/:userId/:eventId')
+  async duplication(@Param('userId') userId: string, @Param('eventId') eventId: string): Promise<boolean | null> {
+    return this.appService.duplication(userId,eventId);
+  }
+
   @Get('/getProgress/:userId/:eventId')
   async getUserProgress(@Param('userId') userId: string, @Param('eventId') eventId: string): Promise<number | null> {
     return this.appService.getUserProgress(userId,eventId);

@@ -102,9 +102,17 @@ export class EventService {
 
   //Event-rewardRequest
   async rewardRequest(rewardRequest: RewardRequest){
+    const { userId, eventId } = rewardRequest;
+    const duplication = await firstValueFrom(
+      this.httpService.get(`http://localhost:4001/duplication/${userId}/${eventId}`)
+    );
+    const checkDuplication: boolean = duplication.data;
+    if(checkDuplication){
+      return "Duplication request"
+    }
+
     const createdrewardRequest = new this.rewardRequestModel(rewardRequest)
     await createdrewardRequest.save();
-    const { userId, eventId } = rewardRequest;
     const event = await this.eventModel.findById(eventId).exec();
     if (!event) throw new Error('Event not found');
     const conditionId = event.condition;
@@ -128,11 +136,27 @@ export class EventService {
         { status: true },
         { new: true }
       );
-      console.log("success2")
       await firstValueFrom(
         this.httpService.put(`http://localhost:4001/success/${userId}/${eventId}`)
       );
     }
+  }
+
+  async RequestList(): Promise<RewardRequest[]> {
+    return await this.rewardRequestModel.find().lean().exec();
+  }
+
+  async checkRequest(userId: string): Promise<RewardRequest[] | null> {
+    if (!Types.ObjectId.isValid(userId)) {
+      throw new Error('Invalid event ID');
+    }
+    
+    const rewardRequests = await this.rewardRequestModel
+    .find({ userId: userId })
+    .lean()
+    .exec();
+
+    return rewardRequests.length > 0 ? rewardRequests : null;
   }
   getHello(): string {
     return 'Hello from Event Server!';
