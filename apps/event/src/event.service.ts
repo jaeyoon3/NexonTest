@@ -25,6 +25,25 @@ export class EventService {
     return createdEvent.save();
   }
  
+  //이벤트 활성화
+  async eventStatus(eventId: string) {
+
+    if (!Types.ObjectId.isValid(eventId)) {
+      throw new Error('Invalid event ID');
+    }
+
+    const updatedEvent = await this.eventModel.findByIdAndUpdate(
+      eventId,
+      { $set: { status: true } },
+      { new: true } 
+    ).lean().exec();
+
+    if (!updatedEvent) {
+      return "exist not event";
+    }
+  }
+
+
   //이벤트 목록 확인
   async checkEventList(): Promise<{ id: string; name: string }[]> {
     const events = await this.eventModel.find({}, { name: 1 }).lean().exec();
@@ -147,6 +166,17 @@ export class EventService {
       );
       await firstValueFrom(
         this.httpService.put(`http://auth_service:4001/success/${userId}/${eventId}`)
+      );
+
+    }
+    else{
+      const objectId = new Types.ObjectId(String(createdrewardRequest._id));
+      console.log(Types.ObjectId.isValid(objectId))
+      console.log(objectId)
+      await this.rewardRequestModel.findByIdAndUpdate(
+         objectId,
+        { status: false },
+        { new: true }
       );
     }
   }

@@ -51,7 +51,7 @@ export class AppService {
               eventProgress: {
               eventId,
               conditionId,
-              progress: 1,
+              progress: 0,
             },
           },
         },

@@ -17,10 +17,7 @@ export class Auth {
 
     @Prop()
     role: string;
-
-    @Prop()
-    rewardRequests: string[];
-
+    
     @Prop()
     successRequests: string[];
 

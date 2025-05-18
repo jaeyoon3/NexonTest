@@ -1,4 +1,4 @@
-import { Controller, Get, Post,Body,Param } from '@nestjs/common';
+import { Controller, Get, Post,Put,Body,Param } from '@nestjs/common';
 import { EventService } from './event.service';
 import { Event } from './schema/event.schema'
 import { Reward } from './schema/reward.schema'
@@ -16,6 +16,12 @@ export class EventController {
   @Post('/eventRegist')
   async eventRegist(@Body() eventData: Event): Promise<Event> {
       return this.appService.eventRegister(eventData);
+  }
+
+  //이벤트 활성화
+  @Put('/eventStatus/:eventId')
+  async eventStatus(@Param('eventId') eventId: string)  {
+    return this.appService.eventStatus(eventId);
   }
 
   //이벤트 목록 확인(이벤트 id+ 이벤트 제목)

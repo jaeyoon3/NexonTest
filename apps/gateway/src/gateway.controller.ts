@@ -34,8 +34,16 @@ export class GatewayController {
   @Post('/event/register')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
-  async EventRegister(@Body() eventData: any) {
+  async eventRegister(@Body() eventData: any) {
     return await this.gatewayService.RegisterEvent(eventData);
+  }
+
+  //이벤트 활성화
+  @Put('/event/eventStatus')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async eventStatus(@Body('eventId') eventId: string) {
+    return await this.gatewayService.EventStatus(eventId);
   }
 
   //이벤트 목록 확인

@@ -34,6 +34,12 @@ export class GatewayService {
     );
   }
 
+  async EventStatus(eventId: string) {
+    await firstValueFrom(
+      this.httpService.put(`http://event_service:4002/eventStatus/${eventId}`),
+    );
+  }
+
   async AllEventCheck() {
     const response = await firstValueFrom(
       this.httpService.get('http://event_service:4002/checkEventList'),
