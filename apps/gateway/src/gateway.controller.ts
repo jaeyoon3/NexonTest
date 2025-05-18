@@ -10,23 +10,27 @@ export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) {}
 
   //Auth 
+  //회원가입
   @Post('/auth/register')
   async Register(@Body() authData: any) {
     return await this.gatewayService.RegisterAuth(authData);
   }
 
+  //로그인
   @Post('/auth/login')
   async Login(@Body() loginData: any) {
     const token = await this.gatewayService.LoginAuth(loginData);
     return { access_token: token };
   }
 
+  //이벤트 진행
   @Put('/auth/progress')
   async Progress(@Body() progressData: any) {
     return await this.gatewayService.ProgressAuth(progressData);
   }
 
   //Event
+  //이벤트 등록
   @Post('/event/register')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -34,18 +38,21 @@ export class GatewayController {
     return await this.gatewayService.RegisterEvent(eventData);
   }
 
+  //이벤트 목록 확인
   @Get('/event/eventList')
   @UseGuards(AuthGuard('jwt'))
   async getEventList() {
     return await this.gatewayService.AllEventCheck(); 
   }
 
+  //이벤트 상세 확인
   @Get('/event/eventDetail')
   @UseGuards(AuthGuard('jwt'))
   async getEventDetail(@Body('eventId') eventId: string) {
     return await this.gatewayService.OneEventCheck(eventId); 
   }
 
+  //이벤트 조건 등록
   @Post('/event/condition')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -53,6 +60,7 @@ export class GatewayController {
     return await this.gatewayService.RegisterCondition(conditionData);
   }
 
+  //이벤트 조건 확인
   @Get('/event/conditionCheck')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -61,6 +69,7 @@ export class GatewayController {
   }
 
   //Event-reward
+  //이벤트 보상 등록
   @Post('/event/reward')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -68,6 +77,7 @@ export class GatewayController {
     return await this.gatewayService.RegisterReward(rewardData);
   }
 
+  //보상 목록 확인
   @Get('/event/rewardList')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -75,6 +85,7 @@ export class GatewayController {
     return await this.gatewayService.AllRewardCheck(); 
   }
 
+  //보상 상세 확인
   @Get('/event/rewardCheck')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -83,11 +94,13 @@ export class GatewayController {
   }
 
   //Event-rewardRequest
+  //보상 요청 등록
   @Post('/event/rewardRequest')
   async rewardRequest(@Body() rewardRequestData: any) {
     return await this.gatewayService.RewardRequest(rewardRequestData);
   }
 
+  //보상 요청 목록 확인
   @Get('/event/requestList')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN','AUDITOR')
@@ -95,6 +108,7 @@ export class GatewayController {
     return await this.gatewayService.RequestList(); 
   }
 
+  //유저별 보상 요청 확인
   @Get('/event/CheckRequest')
   @UseGuards(AuthGuard('jwt'))
   async CheckRequest(@Body('userId') userId: string) {

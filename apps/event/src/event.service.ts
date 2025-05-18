@@ -19,11 +19,13 @@ export class EventService {
   ) {}
 
   //Event
+  //이벤트 등록
   async eventRegister(event: Event): Promise<Event> {
     const createdEvent = new this.eventModel(event);
     return createdEvent.save();
   }
  
+  //이벤트 목록 확인
   async checkEventList(): Promise<{ id: string; name: string }[]> {
     const events = await this.eventModel.find({}, { name: 1 }).lean().exec();
     return events.map((event) => ({
@@ -32,6 +34,7 @@ export class EventService {
     }));
   }
 
+  //이벤트 상세확인
   async checkEventDetail(eventId: string): Promise<Event | null> {
     console.log(eventId)
     if (!Types.ObjectId.isValid(eventId)) {
@@ -44,6 +47,7 @@ export class EventService {
     return event;
   }
 
+  //이벤트 조건 등록
   async conditionRegister(condition: Condition): Promise<Condition> {
     console.log(condition);
     const createdCondition = new this.conditionModel(condition);
@@ -57,6 +61,7 @@ export class EventService {
     return createdCondition;
   }
 
+  //이벤트 조건 확인
   async checkCondition(conditionId: string): Promise<Condition | null> {
     if (!Types.ObjectId.isValid(conditionId)) {
       throw new Error('Invalid event ID');
@@ -69,6 +74,7 @@ export class EventService {
   }
 
   //Event-reward
+  //이벤트 보상 등록
   async rewardRegister(reward: Reward): Promise<Reward> {
     console.log(reward)
     const createdReward = new this.rewardModel(reward);
@@ -81,6 +87,7 @@ export class EventService {
     return createdReward;
   }
 
+  //보상 목록 확인
   async checkRewardList(): Promise<{ id: string; name: string }[]> {
     const rewards = await this.rewardModel.find({}, { name: 1 }).lean().exec();
     return rewards.map((reward) => ({
@@ -89,6 +96,7 @@ export class EventService {
     }));
   }
 
+  //보상 상세 확인
   async checkRewardDetail(rewardId: string): Promise<Reward | null> {
     if (!Types.ObjectId.isValid(rewardId)) {
       throw new Error('Invalid event ID');
@@ -101,6 +109,7 @@ export class EventService {
   }
 
   //Event-rewardRequest
+  //보상요청 등록
   async rewardRequest(rewardRequest: RewardRequest){
     const { userId, eventId } = rewardRequest;
     const duplication = await firstValueFrom(
@@ -142,10 +151,12 @@ export class EventService {
     }
   }
 
+  //보상요청 목록 확인
   async RequestList(): Promise<RewardRequest[]> {
     return await this.rewardRequestModel.find().lean().exec();
   }
 
+  //유저별 보상 요청 확인 
   async checkRequest(userId: string): Promise<RewardRequest[] | null> {
     if (!Types.ObjectId.isValid(userId)) {
       throw new Error('Invalid event ID');
@@ -158,7 +169,5 @@ export class EventService {
 
     return rewardRequests.length > 0 ? rewardRequests : null;
   }
-  getHello(): string {
-    return 'Hello from Event Server!';
-  }
+  
 }

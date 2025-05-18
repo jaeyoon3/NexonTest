@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AppService {
   constructor(@InjectModel(Auth.name) private authModel: Model<AuthDocument>, private readonly jwtService: JwtService) {}
 
+  //회원가입
   async create(auth: Auth): Promise<Auth> {
     const hashPassword = await bcrypt.hash(auth.password, 10);
     auth.password = hashPassword;
@@ -16,6 +17,7 @@ export class AppService {
     return createdAuth.save();
   }
 
+  //로그인
   async login(email: string, password: string): Promise<string | null> {
     const user = await this.authModel.findOne({ email }).exec();
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -25,6 +27,7 @@ export class AppService {
     return null;
   }
 
+  //이벤트 조건 진행
   async progress(userId: string, eventId: string, conditionId: string) {
     const user = await this.authModel.findById(userId);
     if (!user) {
@@ -57,6 +60,7 @@ export class AppService {
     return await this.authModel.findById(userId);
   }
 
+  //보상 요청 중복확인
   async duplication(userId: string, eventId: string): Promise<boolean | null> {
     if (!Types.ObjectId.isValid(userId)) {
       throw new Error('Invalid user ID');
@@ -68,6 +72,7 @@ export class AppService {
     return auth.successRequests.includes(eventId);
   }
 
+  //유저의 진행상황 체크
   async getUserProgress(userId: string, eventId: string): Promise<number | null> {
     if (!Types.ObjectId.isValid(userId)) {
       throw new Error('Invalid user ID');
@@ -83,6 +88,7 @@ export class AppService {
     return progressEntry ? progressEntry.progress : null;
   }
 
+  //보상요청 성공
   async success(userId: string, eventId: string) {
     return await this.authModel.findByIdAndUpdate(
       userId,
@@ -91,12 +97,4 @@ export class AppService {
     );
   }
 
-  //이것도 일단 나둬
-  async findAll(): Promise<Auth[]> {
-    return this.authModel.find().exec();
-  }
-
-  getHello(): string {
-    return 'Hello from Auth Server!';
-  }
 }
