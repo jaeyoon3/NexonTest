@@ -8,7 +8,6 @@ RUN npm install
 
 COPY . .
 
-# .env 파일 복사
 ENV MONGODB_URI=mongodb://my_mongodb:27017/auth-db
 
 EXPOSE 4001

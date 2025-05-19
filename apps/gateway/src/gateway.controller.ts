@@ -38,7 +38,7 @@ export class GatewayController {
     return await this.gatewayService.RegisterEvent(eventData);
   }
 
-  //이벤트 활성화
+  //이벤트 활성화, 비활성화
   @Put('/event/eventStatus')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
@@ -78,11 +78,25 @@ export class GatewayController {
 
   //Event-reward
   //이벤트 보상 등록
-  @Post('/event/reward')
+  @Post('/event/gameItem')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('OPERATOR','ADMIN')
-  async RewardRegister(@Body() rewardData: any) {
-    return await this.gatewayService.RegisterReward(rewardData);
+  async gameItemRegister(@Body() rewardData: any) {
+    return await this.gatewayService.RegisterReward({ ...rewardData, type: 'game_item'});
+  }
+
+  @Post('/event/coin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async coinRegister(@Body() rewardData: any) {
+    return await this.gatewayService.RegisterReward({ ...rewardData, type: 'coin'});
+  }
+
+  @Post('/event/EnhancementBook')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('OPERATOR','ADMIN')
+  async bookRegister(@Body() rewardData: any) {
+    return await this.gatewayService.RegisterReward({ ...rewardData, type: 'enhancement_book'});
   }
 
   //보상 목록 확인

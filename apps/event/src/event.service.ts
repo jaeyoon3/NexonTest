@@ -25,22 +25,25 @@ export class EventService {
     return createdEvent.save();
   }
  
-  //이벤트 활성화
+  //이벤트 활성화,비활성화
   async eventStatus(eventId: string) {
 
     if (!Types.ObjectId.isValid(eventId)) {
       throw new Error('Invalid event ID');
     }
+    const event = await this.eventModel.findById(eventId).lean().exec();
+
+    if (!event) {
+      return "Event does not exist";
+    }
 
     const updatedEvent = await this.eventModel.findByIdAndUpdate(
       eventId,
-      { $set: { status: true } },
+      { $set: { status: !event.status } },
       { new: true } 
     ).lean().exec();
 
-    if (!updatedEvent) {
-      return "exist not event";
-    }
+    return "status change"
   }
 
 
@@ -73,7 +76,7 @@ export class EventService {
     await createdCondition.save();
     await this.eventModel.findByIdAndUpdate(
         condition.eventId,
-        { condition: createdCondition._id }, // 원하는 필드로 값 넣기
+        { condition: createdCondition._id }, 
         { new: true }
     );
 

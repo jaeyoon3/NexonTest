@@ -7,6 +7,9 @@ export type RewardDocument = Reward & Document;
 export class Reward {
 
     @Prop()
+    type: string;
+
+    @Prop()
     name: string;
 
     @Prop()

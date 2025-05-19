@@ -18,7 +18,7 @@ export class EventController {
       return this.appService.eventRegister(eventData);
   }
 
-  //이벤트 활성화
+  //이벤트 활성화, 비활성화
   @Put('/eventStatus/:eventId')
   async eventStatus(@Param('eventId') eventId: string)  {
     return this.appService.eventStatus(eventId);

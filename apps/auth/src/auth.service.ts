@@ -40,7 +40,9 @@ export class AppService {
     );
     if (existingProgress) {
       await this.authModel.updateOne(
-        { 'eventProgress.eventId': eventId, 'eventProgress.conditionId': conditionId },
+        { _id: userId,
+          'eventProgress.eventId': eventId, 
+          'eventProgress.conditionId': conditionId },
         { $inc: { 'eventProgress.$.progress': 1 } }
       );
     } else {

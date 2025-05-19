@@ -20,6 +20,12 @@ export class Event {
 
     @Prop([String])
     reward: string[];
+
+    @Prop({ type: Date, required: true })
+    startDate: Date;
+
+    @Prop({ type: Date, required: true })
+    endDate: Date;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
