@@ -12,6 +12,7 @@ export class RewardRequest {
     @Prop()
     eventId: string;
 
+    //true는 성공, false는 실패
     @Prop()
     status: boolean;
 }

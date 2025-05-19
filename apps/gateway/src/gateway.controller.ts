@@ -25,6 +25,7 @@ export class GatewayController {
 
   //이벤트 진행
   @Put('/auth/progress')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   async Progress(@Body() progressData: any) {
     return await this.gatewayService.ProgressAuth(progressData);
   }
@@ -118,6 +119,7 @@ export class GatewayController {
   //Event-rewardRequest
   //보상 요청 등록
   @Post('/event/rewardRequest')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   async rewardRequest(@Body() rewardRequestData: any) {
     return await this.gatewayService.RewardRequest(rewardRequestData);
   }

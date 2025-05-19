@@ -15,6 +15,7 @@ export class Event {
     @Prop(String)
     condition: string;
 
+    //true는 활성, false는 비활성
     @Prop()
     status: boolean;
 
