@@ -36,7 +36,7 @@ $ docker-compose up --build
 - 토큰 필요: "Authorization: Bearer Token"
 - 요청 body: {"eventId": "_id", "name": "파워엘릭서", "quantity": 200}
 
-이벤트 활성화/비활성화
+이벤트 활성화/비활성화 - @Put('/event/eventStatus')
 - 설명: 이벤트 상태변경
 - 토큰 필요: "Authorization: Bearer Token"
 - 요청 body: {"eventId": "_id"}
